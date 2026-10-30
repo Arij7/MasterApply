@@ -1,0 +1,10 @@
+Relation	Cardinalité	Pourquoi
+Candidat – Candidature	1 — 0..*	Un candidat peut n’avoir encore rien déposé (0) ou en avoir plusieurs. Une candidature a toujours un seul propriétaire (RG01).
+Candidature – Master	0..* — 1	RG03 : une candidature vise un seul Master. Un Master peut recevoir 0 ou plusieurs candidatures.
+Candidature – Campagne	0..* — 1	Chaque candidature appartient à une campagne. C’est ce qui permet de compter 3 candidatures par campagne (RG02).
+Candidature – Document	1 — 0..*	Une candidature a plusieurs pièces. Un document appartient à une seule candidature.
+Candidature – Paiement	1 — 0..*	Plusieurs tentatives possibles : un paiement échoué n’annule rien, on peut réessayer (RG14).
+Paiement – Recu	1 — 0..1	Un reçu n’existe que pour un paiement réussi (RG08), donc 0 ou 1. Un paiement échoué n’a pas de reçu.
+Candidature – Administrateur	0..* — 0..1	Tant que personne n’a décidé, il n’y a pas d’admin associé (0). Après décision, un seul.
+Inscription – Candidature	0..1 — 1	Une candidature acceptée et payée donne au plus une inscription.
+Inscription – Candidat	0..1 — 1	RG11 : un candidat a au plus une inscription définitive.
