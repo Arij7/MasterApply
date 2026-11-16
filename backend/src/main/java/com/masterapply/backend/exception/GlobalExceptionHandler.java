@@ -7,12 +7,14 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.security.authentication.BadCredentialsException;
-
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -25,6 +27,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<Map<String, Object>> business(BusinessException e) {
         return build(HttpStatus.CONFLICT, e.getMessage());
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<Map<String, Object>> interdit(ForbiddenException e) {
+        return build(HttpStatus.FORBIDDEN, e.getMessage());
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Map<String, Object>> mauvaiseRequete(BadRequestException e) {
+        return build(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<Map<String, Object>> identifiantsInvalides(BadCredentialsException e) {
+        return build(HttpStatus.UNAUTHORIZED, e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -45,9 +62,19 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.BAD_REQUEST, "Paramètre invalide : " + e.getName());
     }
 
-        @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<Map<String, Object>> identifiantsInvalides(BadCredentialsException e) {
-        return build(HttpStatus.UNAUTHORIZED, e.getMessage());
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<Map<String, Object>> parametreManquant(MissingServletRequestParameterException e) {
+        return build(HttpStatus.BAD_REQUEST, "Paramètre obligatoire manquant : " + e.getParameterName());
+    }
+
+    @ExceptionHandler(MissingServletRequestPartException.class)
+    public ResponseEntity<Map<String, Object>> partieManquante(MissingServletRequestPartException e) {
+        return build(HttpStatus.BAD_REQUEST, "Partie obligatoire manquante : " + e.getRequestPartName());
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<Map<String, Object>> fichierTropGros(MaxUploadSizeExceededException e) {
+        return build(HttpStatus.PAYLOAD_TOO_LARGE, "Fichier trop volumineux (5 Mo maximum)");
     }
 
     private ResponseEntity<Map<String, Object>> build(HttpStatus status, String message) {

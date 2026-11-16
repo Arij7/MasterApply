@@ -65,6 +65,14 @@ public class Candidature {
         this.dateSoumission = LocalDateTime.now();
     }
 
+        public void mettreEnExamen(Administrateur admin) {
+        if (!SOUMISE.equals(statut)) {
+            throw new BusinessException("Seule une candidature soumise peut être mise en examen");
+        }
+        this.statut = EN_EXAMEN;
+        this.administrateur = admin;
+    }
+
     public void accepter(Administrateur admin) {
         verifierDecisionPossible();
         this.statut = ACCEPTEE;
