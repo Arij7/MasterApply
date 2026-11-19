@@ -29,6 +29,14 @@ public class CandidatureController {
         return service.creer(uid(jwt), r);
     }
 
+
+
+        @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void supprimer(@AuthenticationPrincipal Jwt jwt, @PathVariable Long id) {
+        service.supprimerBrouillon(id, uid(jwt));
+    }
+
     @GetMapping
     public List<CandidatureResponse> lister(@AuthenticationPrincipal Jwt jwt) {
         return service.lister(uid(jwt), estAdmin(jwt));

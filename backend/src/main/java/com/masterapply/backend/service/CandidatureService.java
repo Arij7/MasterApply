@@ -220,6 +220,17 @@ public class CandidatureService {
         return CandidatureResponse.from(candidatureRepo.save(c));
     }
 
+        @Transactional
+    public void supprimerBrouillon(Long id, Long candidatId) {
+        Candidature c = charger(id);
+        verifierProprietaire(c, candidatId);
+        if (!Candidature.BROUILLON.equals(c.getStatut())) {
+            throw new BusinessException("Seul un brouillon peut être supprimé");
+        }
+        c.getDocuments().forEach(d -> supprimerFichier(d.getChemin()));
+        candidatureRepo.delete(c);
+    }
+
     // ------------------------------------------------------------------ outils
 
     private Candidature charger(Long id) {
