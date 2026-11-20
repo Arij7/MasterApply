@@ -1,14 +1,16 @@
-const racine = document.getElementById('root');
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
+import './index.css';
 
-function afficher(erreur) {
-  racine.innerHTML = '';
-  const bloc = document.createElement('pre');
-  bloc.style.cssText = 'color:red;padding:20px;white-space:pre-wrap;font-size:14px';
-  bloc.textContent = String((erreur && erreur.stack) || erreur);
-  racine.appendChild(bloc);
-}
-
-window.addEventListener('error', (e) => afficher(e.error || e.message));
-window.addEventListener('unhandledrejection', (e) => afficher(e.reason));
-
-import('./demarrage.jsx').catch(afficher);
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <BrowserRouter>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </BrowserRouter>
+  </StrictMode>
+);

@@ -31,7 +31,10 @@ export default function AdminPaiements() {
               <td>{p.statut === 'REUSSI' ? 'Réussi' : p.statut === 'ECHOUE' ? 'Échoué' : 'En attente'}</td>
               <td>
                 {p.recuId && (
-                  <button className="lien" onClick={() => telechargerFichier(`/recus/${p.recuId}/pdf`, `recu-${p.recuId}.pdf`)}>
+                  <button
+                    className="lien"
+                    onClick={() => telechargerFichier(`/recus/${p.recuId}/pdf`, `recu-${p.recuId}.pdf`)}
+                  >
                     PDF
                   </button>
                 )}

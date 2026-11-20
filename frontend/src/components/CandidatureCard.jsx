@@ -228,4 +228,4 @@ export default function CandidatureCard({ c, inscription, onChange }) {
       {erreur && <p className="erreur">{erreur}</p>}
     </article>
   );
-} 
+}

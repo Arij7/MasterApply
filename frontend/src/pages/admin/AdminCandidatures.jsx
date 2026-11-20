@@ -77,7 +77,10 @@ function Dossier({ c, onChange, onFermer }) {
         {documents.map((d) => (
           <li key={d.id}>
             {TYPES[d.type] || d.type} :{' '}
-            <button className="lien" onClick={() => telechargerFichier(`/candidatures/${c.id}/documents/${d.id}/fichier`, d.nomFichier)}>
+            <button
+              className="lien"
+              onClick={() => telechargerFichier(`/candidatures/${c.id}/documents/${d.id}/fichier`, d.nomFichier)}
+            >
               {d.nomFichier}
             </button>
           </li>
